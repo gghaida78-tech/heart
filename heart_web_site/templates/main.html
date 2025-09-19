@@ -1,0 +1,177 @@
+<!-- file: templates/main.html -->
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <title>نموذج التنبؤ بأمراض القلب</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header class="topbar">
+        <div class="brand">نموذج التنبؤ بأمراض القلب</div>
+        <nav class="nav-links">
+            <a href="{{ url_for('login') }}">تسجيل الدخول</a>
+            <a href="{{ url_for('input_data') }}">إدخال البيانات</a>
+        </nav>
+    </header>
+
+    <main class="container">
+
+        {% if page == "login" %}
+            <h2>تسجيل الدخول</h2>
+            <form method="POST" class="card">
+                <label for="username">اسم المستخدم</label>
+                <input id="username" type="text" name="username" placeholder="ادخل اسم المستخدم" required />
+
+                <label for="password">كلمة المرور</label>
+                <input id="password" type="password" name="password" placeholder="ادخل كلمة المرور" required />
+
+                <button type="submit" class="btn primary">دخول</button>
+
+                {% if error %}
+                    <p class="alert error">{{ error }}</p>
+                {% endif %}
+            </form>
+        {% elif page == "input" %}
+            <h2>إدخال بيانات المريض</h2>
+            <form method="POST" class="card grid">
+                <div>
+                    <label for="age">العمر</label>
+                    <input id="age" type="number" name="age" min="1" max="120" required>
+                </div>
+
+                <div>
+                    <label for="sex">الجنس</label>
+                    <select id="sex" name="sex" required>
+                        <option value="" disabled selected>اختر</option>
+                        <option value="1">ذكر</option>
+                        <option value="0">أنثى</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="cp">نوع ألم الصدر (cp)</label>
+                    <select id="cp" name="cp" required>
+                        <option value="" disabled selected>اختر</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="trtbps">ضغط الدم الراحة (trtbps)</label>
+                    <input id="trtbps" type="number" name="trtbps" min="70" max="250" required>
+                </div>
+
+                <div>
+                    <label for="chol">الكوليسترول (chol)</label>
+                    <input id="chol" type="number" name="chol" min="80" max="700" required>
+                </div>
+
+                <div>
+                    <label for="fbs">سكر صائم > 120 (fbs)</label>
+                    <select id="fbs" name="fbs" required>
+                        <option value="" disabled selected>اختر</option>
+                        <option value="1">نعم</option>
+                        <option value="0">لا</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="restecg">نتيجة ECG الراحة (restecg)</label>
+                    <select id="restecg" name="restecg" required>
+                        <option value="" disabled selected>اختر</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="thalachh">أقصى نبض (thalachh)</label>
+                    <input id="thalachh" type="number" name="thalachh" min="50" max="250" required>
+                </div>
+
+                <div>
+                    <label for="exng">ذبحة جهدية (exng)</label>
+                    <select id="exng" name="exng" required>
+                        <option value="" disabled selected>اختر</option>
+                        <option value="1">نعم</option>
+                        <option value="0">لا</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="oldpeak">انخفاض ST (oldpeak)</label>
+                    <input id="oldpeak" type="number" name="oldpeak" step="0.1" min="0" max="10" required>
+                </div>
+
+                <div>
+                    <label for="slp">ميل ST (slp)</label>
+                    <select id="slp" name="slp" required>
+                        <option value="" disabled selected>اختر</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="caa">عدد الأوعية الملونة (caa)</label>
+                    <select id="caa" name="caa" required>
+                        <option value="" disabled selected>اختر</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="thall">الثالاسيما (thall)</label>
+                    <select id="thall" name="thall" required>
+                        <option value="" disabled selected>اختر</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+
+                <div class="full">
+                    <button type="submit" class="btn primary">تنفيذ التنبؤ</button>
+                </div>
+
+                {% if form_error %}
+                    <p class="alert error full">{{ form_error }}</p>
+                {% endif %}
+            </form>
+
+        {% elif page == "result" %}
+            <section class="card result-card">
+                <h2>نتيجة التنبؤ</h2>
+                {% if prediction == 1 %}
+                    <p class="badge danger">⚠️ المريض معرض لخطر الإصابة بأمراض القلب</p>
+                {% else %}
+                    <p class="badge success">✅ المريض غير معرض لخطر الإصابة بأمراض القلب</p>
+                {% endif %}
+                <div class="actions">
+                    <a class="btn" href="{{ url_for('input_data') }}">إدخال بيانات جديدة</a>
+                    <a class="btn" href="{{ url_for('login') }}">العودة لتسجيل الدخول</a>
+                </div>
+            </section>
+        {% endif %}
+
+    </main>
+
+    <footer class="footer">
+        <small>نسخة تجريبية لأغراض تعليمية</small>
+    </footer>
+
+</body>
+</html>

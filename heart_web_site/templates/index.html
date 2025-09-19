@@ -1,0 +1,98 @@
+<!-- ================= login.html ================= -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>تسجيل الدخول</h2>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        <form method="POST">
+            <label>اسم المستخدم:</label>
+            <input type="text" name="username" required><br>
+            <label>كلمة المرور:</label>
+            <input type="password" name="password" required><br>
+            <button type="submit">تسجيل الدخول</button>
+        </form>
+    </div>
+</body>
+</html>
+
+<!-- ================= input.html ================= -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إدخال بيانات القلب</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>إدخال بيانات القلب</h2>
+        <form method="POST">
+            <label>العمر:</label>
+            <input type="number" name="age" required><br>
+            <label>الجنس (0=أنثى، 1=ذكر):</label>
+            <input type="number" name="sex" min="0" max="1" required><br>
+            <label>ضغط الدم:</label>
+            <input type="number" name="trtbps" required><br>
+            <label>الكوليسترول:</label>
+            <input type="number" name="chol" required><br>
+            <label>السكر في الدم (0=لا، 1=نعم):</label>
+            <input type="number" name="fbs" min="0" max="1" required><br>
+            <label>الرياضة (0=لا، 1=نعم):</label>
+            <input type="number" name="exng" min="0" max="1" required><br>
+            <label>القدم الكهربائية:</label>
+            <input type="number" name="restecg" required><br>
+            <label>معدل ضربات القلب:</label>
+            <input type="number" name="thalachh" required><br>
+            <label>القدم العالي:</label>
+            <input type="number" name="oldpeak" step="0.1" required><br>
+            <label>الانحدار:</label>
+            <input type="number" name="slp" required><br>
+            <label>الأوعية الدموية:</label>
+            <input type="number" name="caa" required><br>
+            <label>ثلاسيميا:</label>
+            <input type="number" name="thall" required><br>
+            <button type="submit">تنبؤ</button>
+        </form>
+    </div>
+</body>
+</html>
+
+<!-- ================= result.html ================= -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نتيجة التنبؤ</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>نتيجة التنبؤ</h2>
+        <p>حالة القلب: <strong>{{ prediction }}</strong></p>
+        <h3>نصائح:</h3>
+        <ul>
+            {% if prediction == "مصاب" %}
+                <li>مراجعة طبيب القلب فوراً.</li>
+                <li>اتباع نظام غذائي صحي وقليل الدسم.</li>
+                <li>ممارسة الرياضة بانتظام بعد استشارة الطبيب.</li>
+            {% else %}
+                <li>حافظ على أسلوب حياة صحي.</li>
+                <li>مارس الرياضة بانتظام.</li>
+                <li>راقب ضغط الدم والكوليسترول.</li>
+            {% endif %}
+        </ul>
+        <a href="{{ url_for('input_data') }}">العودة لإدخال بيانات جديدة</a>
+    </div>
+</body>
+</html>

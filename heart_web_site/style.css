@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h2 {
+    color: #c0392b;
+}
+
+input, button {
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #c0392b;
+    font-size: 16px;
+}
+
+button {
+    background-color: #c0392b;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e74c3c;
+}
+
+.login-container, #predict-section, #result-section {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #c0392b;
+    border-radius: 10px;
+}
+
+.section-img {
+    width: 150px;
+    margin: 15px 0;
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>موقع تنبؤ بأمراض القلب</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ------------------- تسجيل الدخول ------------------- -->
+<section id="login-section" class="login-container">
+    <img src="static/images/logo.png" alt="Logo">
+    <h2>تسجيل الدخول</h2>
+    <form id="login-form">
+        <input type="text" id="username" placeholder="اسم المستخدم" required>
+        <input type="password" id="password" placeholder="كلمة المرور" required>
+        <button type="submit">تسجيل الدخول</button>
+    </form>
+</section>
+
+<!-- ------------------- واجهة التنبؤ ------------------- -->
+<section id="predict-section" style="display:none;">
+    <h2>تنبؤ أمراض القلب</h2>
+    <img src="static/images/heart_main.png" alt="Heart" class="section-img">
+    <form id="heart-form">
+        <input type="number" id="age" placeholder="العمر" required>
+        <input type="number" id="bp" placeholder="ضغط الدم" required>
+        <input type="number" id="cholesterol" placeholder="الكوليسترول" required>
+        <button type="submit">تنبؤ</button>
+    </form>
+</section>
+
+<!-- ------------------- واجهة النتيجة ------------------- -->
+<section id="result-section" style="display:none;">
+    <h2>النتيجة</h2>
+    <img src="static/images/heart_tips.png" alt="Tips" class="section-img">
+    <p id="prediction" style="font-size:20px; font-weight:bold;"></p>
+    <h3>نصائح للحفاظ على صحة القلب:</h3>
+    <ul>
+        <li>ممارسة الرياضة بانتظام.</li>
+        <li>اتباع نظام غذائي صحي.</li>
+        <li>الابتعاد عن التدخين والكحول.</li>
+        <li>متابعة ضغط الدم والكوليسترول بشكل دوري.</li>
+    </ul>
+</section>
+
+<!-- ------------------- JavaScript ------------------- -->
+<script>
+    // تسجيل الدخول
+    document.getElementById("login-form").addEventListener("submit", function(e){
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if(username === "user" && password === "1234"){
+            document.getElementById("login-section").style.display = "none";
+            document.getElementById("predict-section").style.display = "block";
+        } else {
+            alert("اسم المستخدم أو كلمة المرور خاطئة");
+        }
+    });
+
+    // إرسال بيانات التنبؤ إلى Flask
+    document.getElementById("heart-form").addEventListener("submit", function(e){
+        e.preventDefault();
+        const age = parseInt(document.getElementById("age").value);
+        const bp = parseInt(document.getElementById("bp").value);
+        const cholesterol = parseInt(document.getElementById("cholesterol").value);
+
+        fetch('/predict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ age: age, bp: bp, cholesterol: cholesterol })
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("predict-section").style.display = "none";
+            document.getElementById("result-section").style.display = "block";
+            document.getElementById("prediction").innerText = data.prediction === 1 ? 
+                "خطر إصابة بأمراض القلب" : "خالي من الخطر";
+        });
+    });
+</script>
+
+</body>
+</html>
