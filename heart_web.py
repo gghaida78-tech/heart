@@ -2,9 +2,11 @@ import streamlit as st
 import joblib
 import numpy as np
 import plotly.graph_objects as go
+import os
 
-# تحميل النموذج
-model = joblib.load("C:/Users/Elite/Downloads/heart_model.pkl")
+# تحميل النموذج (مسار نسبي)
+model_path = os.path.join(os.path.dirname(__file__), "heart_model.pkl")
+model = joblib.load(model_path)
 
 # إعداد الصفحة
 st.set_page_config(
@@ -13,17 +15,15 @@ st.set_page_config(
     layout="centered"
 )
 
-# خلفية بيضاء وجعل الحقول أطول
+# خلفية بيضاء وتصغير حجم الحقول
 st.markdown(
     """
     <style>
     .stApp {
         background-color: white;
     }
-    /* زيادة طول الحقول */
     .stSlider > div, .stSelectbox > div, .stRadio > div, .stTextInput > div {
-        max-width: 600px;  /* عرض أكبر */
-        min-height: 70px;  /* طول الحقول */
+        max-width: 400px;
     }
     </style>
     """,
