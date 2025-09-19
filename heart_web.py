@@ -4,9 +4,10 @@ import numpy as np
 import plotly.graph_objects as go
 import os
 
-# تحميل النموذج (مسار نسبي)
-model_path = os.path.join(os.path.dirname(__file__), "heart_model.pkl")
-model = joblib.load(model_path)
+# تحميل النموذج والملفات بالمسار النسبي
+BASE_DIR = os.path.dirname(__file__)  # مسار مجلد المشروع
+MODEL_PATH = os.path.join(BASE_DIR, "heart_model.pkl")
+model = joblib.load(MODEL_PATH)
 
 # إعداد الصفحة
 st.set_page_config(
